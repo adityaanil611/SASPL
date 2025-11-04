@@ -1,0 +1,130 @@
+================================================================================
+EXPERIMENT 2 — PITCH AND FORMANT ESTIMATION
+================================================================================
+
+THEORY
+======
+
+PITCH (FUNDAMENTAL FREQUENCY, F₀)
+----------------------------------
+Represents the vibration rate of vocal folds.
+Autocorrelation peaks at the pitch period T₀:
+
+r(τ) = Σ x(n)x(n+τ)
+
+Pitch f₀ = 1/T₀ = Fs/τ_max_peak
+
+FORMANTS
+--------
+Formants are resonant frequencies of the vocal tract (F₁, F₂, F₃) estimated 
+via Linear Predictive Coding (LPC).
+
+x(n) = -Σ aₖ x(n-k) + e(n)
+
+Roots of the LPC polynomial give formant frequencies.
+
+================================================================================
+VIVA PREPARATION
+================================================================================
+
+CONCEPT QUESTIONS
+=================
+
+1. What is the difference between pitch and formant?
+   → Pitch arises from vocal fold vibration; formants from vocal tract 
+   resonances.
+
+2. Typical formant frequencies for vowels?
+   → F₁: 300–900 Hz, F₂: 900–2500 Hz, F₃: 2500–3500 Hz.
+
+3. Why use LPC for formant estimation?
+   → It models the speech spectrum as an all-pole filter (vocal tract).
+
+4. Why is pitch zero for unvoiced sounds?
+   → Because unvoiced sounds lack periodicity.
+
+5. Effect of sampling rate on formant resolution?
+   → Higher sampling → more accurate formant detection.
+
+6. What is the typical pitch range for human voice?
+   → Male: 85–180 Hz; Female: 165–255 Hz; Children: 200–300 Hz.
+
+7. How many formants are significant for speech perception?
+   → The first three formants (F₁, F₂, F₃) are most important.
+
+8. What is the source-filter model of speech production?
+   → Speech = excitation source (glottal pulses or noise) filtered by 
+   vocal tract resonances.
+
+9. Why do different vowels have different formant patterns?
+   → Vowels are distinguished by tongue/lip positions that change vocal 
+   tract shape and resonances.
+
+10. What is the relationship between LPC order and formants?
+    → LPC order ≈ 2 × (number of expected formants) + 2–4 for glottal 
+    source modeling.
+
+11. How does autocorrelation detect pitch?
+    → Periodic signals show strong peaks at lag corresponding to period; 
+    finding the peak lag gives pitch period.
+
+12. What are octave errors in pitch detection?
+    → Detecting pitch at half or double the correct value due to picking 
+    wrong autocorrelation peak.
+
+ADVANTAGES
+==========
+• Reveals speaker characteristics and identity
+• Provides key features for speech recognition and synthesis
+• Formants are relatively speaker-independent for phoneme classification
+• Non-invasive voice analysis
+• Rich information for speech understanding
+• Useful for both linguistic and paralinguistic analysis
+
+DISADVANTAGES
+=============
+• LPC sensitive to noise and non-stationarity
+• Pitch detection may fail for high noise or mixed voiced/unvoiced frames
+• Formant tracking can be unstable during transitions
+• Requires voiced/unvoiced detection preprocessing
+• Computational cost for real-time tracking
+• LPC may produce spurious poles/formants
+
+APPLICATIONS
+============
+• Speech synthesis and coding (e.g., LPC vocoder)
+• Speaker recognition and verification
+• Language phonetic analysis
+• Voice conversion and transformation
+• Speech pathology diagnosis
+• Emotion recognition
+• Prosody analysis
+• Music information retrieval
+• Forensic voice analysis
+
+USE CASES
+=========
+• Text-to-speech systems: Natural prosody generation
+• Voice assistants: Speaker identification
+• Language learning apps: Pronunciation feedback
+• Clinical tools: Voice disorder assessment
+• Music apps: Auto-tune and pitch correction
+• Telecommunications: Low-bitrate speech coding
+
+RELATED CONCEPTS
+================
+• Source-filter theory of speech production
+• Linear prediction
+• Cepstral analysis
+• Spectral envelope estimation
+• Voiced/unvoiced classification
+• Prosody and intonation
+
+PRACTICAL CONSIDERATIONS
+=========================
+• Use windowed segments (20–50 ms) from stable voiced regions
+• Pre-emphasis (0.95–0.97) improves formant estimation
+• Validate formants by checking bandwidth and frequency range
+• Combine multiple pitch estimation methods for robustness
+• Apply median filtering for pitch contour smoothing
+• Use gender-specific pitch ranges for better accuracy

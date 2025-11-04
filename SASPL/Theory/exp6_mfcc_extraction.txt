@@ -1,0 +1,146 @@
+================================================================================
+EXPERIMENT 6 — MEL-FREQUENCY CEPSTRAL COEFFICIENTS (MFCCs)
+================================================================================
+
+THEORY
+======
+
+MFCCs model human auditory perception by mimicking the non-linear frequency 
+response of the human ear.
+
+MFCC EXTRACTION PIPELINE:
+--------------------------
+1. Pre-emphasis: Amplify high frequencies
+   y[n] = x[n] - α×x[n-1], where α ≈ 0.95–0.97
+
+2. Framing and Windowing: 20–40 ms frames with 50% overlap
+
+3. FFT: Convert to frequency domain
+
+4. Power Spectrum: |FFT|²
+
+5. Mel Filter Bank: Apply triangular filters on Mel scale
+
+6. Logarithm: Compress dynamic range (log energy)
+
+7. DCT: Decorrelate coefficients → MFCCs
+
+MEL SCALE:
+----------
+M(f) = 2595 × log₁₀(1 + f/700)
+
+Converts linear Hz to perceptually uniform Mel scale.
+
+================================================================================
+VIVA PREPARATION
+================================================================================
+
+CONCEPT QUESTIONS
+=================
+
+1. Why use Mel scale?
+   → Mimics non-linear human ear sensitivity (more sensitive to low 
+   frequencies).
+
+2. Why take logarithm and DCT?
+   → Log approximates loudness perception; DCT compacts energy and 
+   decorrelates features.
+
+3. Typical number of MFCCs?
+   → 12–13 static coefficients.
+
+4. What are delta and delta-delta coefficients?
+   → Temporal derivatives capturing dynamics:
+   - Delta (Δ): first-order difference (velocity)
+   - Delta-delta (ΔΔ): second-order difference (acceleration)
+
+5. Why use pre-emphasis?
+   → Balances spectrum by boosting high frequencies attenuated during speech 
+   production.
+
+6. What is the purpose of the mel filter bank?
+   → Maps frequency spectrum to perceptually meaningful scale matching human 
+   hearing.
+
+7. How many mel filters are typically used?
+   → 20–40 filters, more at low frequencies, fewer at high.
+
+8. What does the 0th MFCC coefficient represent?
+   → Overall energy of the frame (often excluded or replaced with log-energy).
+
+9. Why apply DCT after log mel energies?
+   → To decorrelate features and compact information into fewer coefficients.
+
+10. What is cepstral mean normalization (CMN)?
+    → Subtracting mean MFCC across utterance to remove channel effects.
+
+11. How do MFCCs capture speaker characteristics?
+    → Through vocal tract shape encoded in spectral envelope.
+
+12. What is liftering in MFCC?
+    → Weighting cepstral coefficients to emphasize middle coefficients (sine 
+    lifter).
+
+ADVANTAGES
+==========
+• Compact, perceptually relevant features
+• Widely proven for speech and speaker recognition
+• Captures timbral characteristics effectively
+• Robust to small variations in pitch
+• Decorrelated features suitable for machine learning
+• Standard feature in speech processing
+• Well-studied with extensive literature
+
+DISADVANTAGES
+=============
+• Sensitive to noise and channel mismatch
+• Loses phase information (uses only magnitude)
+• Not robust to additive noise without preprocessing
+• May need normalization for robustness
+• Requires careful tuning of parameters
+• Computationally more expensive than simple features
+
+APPLICATIONS
+============
+• Automatic Speech Recognition (ASR)
+• Speaker verification and identification
+• Environmental sound classification
+• Music genre classification
+• Emotion recognition from speech
+• Language identification
+• Voice activity detection
+• Speech synthesis
+• Audio fingerprinting
+
+USE CASES
+=========
+• Smart assistants: Voice commands (Alexa, Siri, Google)
+• Security: Biometric voice authentication
+• Call centers: Speaker verification
+• Accessibility: Voice-to-text for hearing impaired
+• Music apps: Genre classification, mood detection
+• Surveillance: Audio event detection
+• Healthcare: Voice pathology detection
+
+RELATED CONCEPTS
+================
+• Cepstral analysis
+• Perceptual Linear Prediction (PLP)
+• Filter bank features
+• Gammatone filter bank
+• Mel-spectrogram
+• Cochlear modeling
+• Feature normalization (CMN, CMVN)
+
+PRACTICAL CONSIDERATIONS
+=========================
+• Frame size: 20–40 ms (25 ms typical)
+• Frame step: 10 ms (50% overlap)
+• Pre-emphasis: α = 0.95–0.97
+• Mel filters: 20–40 (depends on frequency range)
+• MFCC count: 12–13 static + 13 delta + 13 delta-delta = 39 total
+• Apply CMN or CMVN for channel robustness
+• Energy coefficient: append or replace C0
+• Liftering: L = 22 commonly used
+• FFT size: 256–512 typical
+• Frequency range: 0–Fs/2 or 300–8000 Hz for speech

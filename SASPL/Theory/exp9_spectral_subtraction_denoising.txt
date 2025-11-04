@@ -1,0 +1,157 @@
+================================================================================
+EXPERIMENT 9 — SPECTRAL SUBTRACTION FOR SPEECH ENHANCEMENT
+================================================================================
+
+THEORY
+======
+
+Spectral subtraction is a noise reduction technique that removes estimated 
+noise spectrum from noisy speech in the frequency domain.
+
+BASIC PRINCIPLE:
+----------------
+Assuming additive noise: y(t) = s(t) + n(t)
+
+In frequency domain: Y(f) = S(f) + N(f)
+
+SPECTRAL SUBTRACTION:
+---------------------
+|Ŝ(f)| = |Y(f)| - α|N̂(f)|
+
+where:
+- |Y(f)|: noisy speech magnitude
+- |N̂(f)|: estimated noise magnitude
+- α: over-subtraction factor (typically 1–3)
+- |Ŝ(f)|: estimated clean speech magnitude
+
+Phase is preserved: Ŝ(f) = |Ŝ(f)| × exp(j∠Y(f))
+
+SPECTRAL FLOOR:
+---------------
+To avoid negative values:
+|Ŝ(f)| = max(|Y(f)| - α|N̂(f)|, β|N̂(f)|)
+
+where β = 0.001–0.1 (spectral floor factor)
+
+================================================================================
+VIVA PREPARATION
+================================================================================
+
+CONCEPT QUESTIONS
+=================
+
+1. Why perform noise reduction in frequency domain?
+   → Easier to separate speech and noise energy; additive in time = additive 
+   in frequency.
+
+2. What causes "musical noise"?
+   → Negative magnitude flooring and random spectral gaps create isolated 
+   spectral peaks perceived as tones.
+
+3. What is over-subtraction?
+   → Using α > 1 to compensate for underestimated noise and improve SNR at 
+   cost of distortion.
+
+4. How is noise spectrum estimated?
+   → From initial silence frames or continuously updated during speech pauses.
+
+5. Why preserve phase?
+   → Phase is perceptually less critical than magnitude, and preserving it 
+   simplifies reconstruction.
+
+6. What is the spectral floor and why use it?
+   → Minimum magnitude to prevent negative/zero values; reduces musical noise.
+
+7. What is the difference between power subtraction and magnitude subtraction?
+   → Power: subtracts |Y|² - α|N|²; Magnitude: subtracts |Y| - α|N|
+   Power more aggressive but creates more artifacts.
+
+8. What is voice activity detection (VAD) role?
+   → Identifies noise-only frames for updating noise estimate.
+
+9. What are alternatives to basic spectral subtraction?
+   → Wiener filtering, MMSE (Minimum Mean Square Error), deep learning methods.
+
+10. How does frame length affect performance?
+    → Longer frames: better frequency resolution, more stationary assumption
+    Shorter frames: better tracking of non-stationary noise
+
+11. What is the assumption behind spectral subtraction?
+    → Noise is additive, uncorrelated with speech, and stationary (or slowly 
+    varying).
+
+12. Why doesn't spectral subtraction work well for non-stationary noise?
+    → Noise estimate becomes inaccurate as noise characteristics change rapidly.
+
+ADVANTAGES
+==========
+• Simple, unsupervised algorithm
+• Effective for stationary noise
+• Computationally efficient
+• No training data required
+• Real-time capable
+• Easy to implement
+• Provides immediate SNR improvement
+
+DISADVANTAGES
+=============
+• Creates musical noise artifacts
+• Not robust for non-stationary noise
+• Introduces speech distortion
+• Assumes additive noise model
+• Requires noise estimation period
+• Phase preservation may not be optimal
+• Aggressive subtraction reduces naturalness
+
+APPLICATIONS
+============
+• Pre-processing in ASR systems
+• Hearing aids and cochlear implants
+• Mobile communications and VoIP
+• Audio forensics and restoration
+• Voice-controlled systems
+• Telecommunications
+• Public announcement systems
+• Video conferencing
+
+USE CASES
+=========
+• Smart speakers: Noise reduction before ASR
+• Hearing aids: Background noise suppression
+• Call centers: Improving intelligibility
+• In-car systems: Road noise reduction
+• Mobile phones: Wind/street noise removal
+• Security: Enhancing surveillance audio
+• Broadcasting: Cleaning field recordings
+
+RELATED CONCEPTS
+================
+• Wiener filtering
+• MMSE (Minimum Mean Square Error)
+• Voice Activity Detection (VAD)
+• Noise estimation
+• STFT (Short-Time Fourier Transform)
+• Multi-band spectral subtraction
+• Musical noise reduction
+• Deep learning denoising (e.g., Speech Enhancement GAN)
+
+PRACTICAL CONSIDERATIONS
+=========================
+• Frame size: 128–512 samples (depends on sampling rate)
+• Overlap: 50–75% for smooth reconstruction
+• Initial noise estimate: 0.25–0.5 seconds of silence
+• Over-subtraction factor α: 1–3 (higher = more aggressive)
+• Spectral floor β: 0.001–0.1 (higher = less musical noise)
+• Noise update: continuous adaptation using VAD
+• Multi-band approach: different α for different frequency bands
+• Post-processing: smoothing across time/frequency reduces artifacts
+• Psychoacoustic masking: use perceptual models to hide artifacts
+• Combine with other methods for better results
+
+ENHANCEMENTS:
+-------------
+• Multi-band spectral subtraction
+• Decision-directed approach
+• Harmonic regeneration
+• Spectral smoothing
+• Combined Wiener + spectral subtraction

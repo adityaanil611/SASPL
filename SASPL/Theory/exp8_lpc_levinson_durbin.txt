@@ -1,0 +1,146 @@
+================================================================================
+EXPERIMENT 8 — LINEAR PREDICTIVE CODING (LPC)
+================================================================================
+
+THEORY
+======
+
+LPC models speech as the output of an all-pole filter excited by either 
+periodic pulses (voiced) or random noise (unvoiced).
+
+LPC EQUATION:
+-------------
+x(n) = -Σ(k=1 to p) aₖ x(n-k) + e(n)
+
+where:
+- x(n): current sample
+- aₖ: LPC coefficients (predictor coefficients)
+- p: prediction order
+- e(n): prediction error (residual/excitation)
+
+LEVINSON-DURBIN RECURSION:
+--------------------------
+Efficiently solves the autocorrelation equations (Toeplitz system) in O(p²) 
+operations instead of O(p³).
+
+Steps:
+1. Compute autocorrelation R(k) for k = 0 to p
+2. Apply Levinson-Durbin recursion to find coefficients aₖ
+3. Obtain reflection coefficients (PARCOR) kᵢ
+4. Compute prediction error E
+
+PHYSICAL INTERPRETATION:
+------------------------
+• LPC coefficients → vocal tract filter (resonances/formants)
+• Residual e(n) → excitation source (glottal pulses or noise)
+• Implements source-filter model of speech production
+
+================================================================================
+VIVA PREPARATION
+================================================================================
+
+CONCEPT QUESTIONS
+=================
+
+1. What does LPC model physically?
+   → The resonant system of the vocal tract as an all-pole filter.
+
+2. What is prediction error?
+   → Difference between actual sample and predicted sample; represents 
+   excitation signal.
+
+3. What is the typical LPC order?
+   → 10–14 for 8–16 kHz speech.
+   Rule of thumb: p = Fs(kHz) + 2 to 4
+
+4. What are PARCOR coefficients?
+   → Partial Correlation or Reflection coefficients between lattice stages; 
+   related to acoustic tube model.
+
+5. Why is LPC called "linear predictive coding"?
+   → Predicts current sample as linear combination of past samples.
+
+6. What is the all-pole model?
+   → Transfer function with only poles (no zeros): H(z) = 1/A(z)
+
+7. How does LPC order relate to formants?
+   → Generally, 2 poles per formant + 2–4 for glottal source modeling.
+
+8. What is the relationship between LPC and formants?
+   → Roots of LPC polynomial A(z) give formant frequencies and bandwidths.
+
+9. Why use Levinson-Durbin algorithm?
+   → Exploits Toeplitz structure of autocorrelation matrix for efficient 
+   O(p²) solution.
+
+10. What is the autocorrelation method vs covariance method?
+    → Autocorrelation: uses windowed signal, always stable.
+    Covariance: no windowing, may be unstable but more accurate.
+
+11. What is the purpose of pre-emphasis in LPC?
+    → Flattens spectrum and improves conditioning of equations.
+
+12. How do you extract formants from LPC?
+    → Find roots of A(z), convert to frequencies: f = (Fs/2π)×angle(root)
+
+ADVANTAGES
+==========
+• Efficient all-pole spectral representation
+• Enables speech synthesis (vocoders)
+• Separates source and filter
+• Low bitrate compression possible
+• Well-suited for speech modeling
+• Fast computation with Levinson-Durbin
+• Provides formant estimates
+
+DISADVANTAGES
+=============
+• Fails with high background noise
+• Not suitable for non-speech or mixed-excitation signals
+• All-pole model limitation (no anti-resonances)
+• Sensitive to frame size and placement
+• May produce spurious poles
+• Order selection critical
+
+APPLICATIONS
+============
+• Speech compression (LPC-10, CELP, G.729)
+• Formant tracking and analysis
+• Speaker identification
+• Speech synthesis (LPC vocoder)
+• Voice conversion
+• Speech enhancement
+• Biomedical signal processing
+• Seismic data analysis
+
+USE CASES
+=========
+• Telephony: Low-bitrate speech coding (2.4–16 kbps)
+• Military communications: Secure voice transmission
+• Toys and devices: Speech synthesis chips
+• Hearing aids: Formant-based processing
+• Text-to-speech: Articulatory modeling
+• Voice morphing: Feature modification
+
+RELATED CONCEPTS
+================
+• Source-filter theory
+• Lattice filter
+• Reflection coefficients
+• Line Spectral Frequencies (LSF/LSP)
+• CELP (Code-Excited Linear Prediction)
+• PARCOR coefficients
+• Perceptual Linear Prediction (PLP)
+• Formant synthesis
+
+PRACTICAL CONSIDERATIONS
+=========================
+• Frame size: 20–30 ms for stationary assumption
+• Pre-emphasis: α = 0.95–0.97 recommended
+• LPC order: p ≈ Fs(kHz) + 2 (e.g., 12–14 for 16 kHz)
+• Window: Hamming to reduce edge effects
+• Stability: autocorrelation method guarantees stable filter
+• Voiced segments: LPC works best on voiced, quasi-stationary speech
+• Formant extraction: check root magnitude (should be near unit circle)
+• Bandwidth: from root angle, ≈ -(Fs/π)×log(|root|)
+• Quantization: LSFs used in codecs for robust quantization

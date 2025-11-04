@@ -1,0 +1,138 @@
+================================================================================
+EXPERIMENT 7 — CEPSTRAL PITCH DETECTION
+================================================================================
+
+THEORY
+======
+
+Cepstrum = Inverse FFT of log-spectrum.
+
+DEFINITION:
+-----------
+Cepstrum: c(n) = IFFT[log|FFT{x(n)}|]
+
+The cepstrum transforms multiplicative convolution (source × filter) into 
+additive components.
+
+QUEFRENCY:
+----------
+The independent variable of cepstrum, measured in time units (like samples).
+Periodic signals produce a peak in quefrency domain corresponding to pitch 
+period.
+
+PITCH DETECTION:
+----------------
+1. Compute FFT of windowed signal
+2. Take magnitude and logarithm
+3. Apply inverse FFT → cepstrum
+4. Search for peak in quefrency range corresponding to 50–400 Hz
+5. Peak location gives pitch period
+6. Pitch = Fs / quefrency_peak
+
+================================================================================
+VIVA PREPARATION
+================================================================================
+
+CONCEPT QUESTIONS
+=================
+
+1. What is the difference between cepstrum and MFCC?
+   → Cepstrum is the base concept; MFCC applies perceptual Mel scale + DCT + 
+   filter bank.
+
+2. Why use log before IFFT?
+   → Converts multiplicative components (source × filter) into additive for 
+   separation.
+
+3. What is quefrency?
+   → Time scale of cepstrum, indicating periodic structures (pronounced 
+   "quefrency" as play on "frequency").
+
+4. What is the physical meaning of cepstrum?
+   → Separates the excitation source (pitch) from the vocal tract filter 
+   (formants).
+
+5. Why is it called "cepstrum"?
+   → Anagram/wordplay on "spectrum" (swapping first four letters).
+
+6. What are other cepstral terminology puns?
+   → Quefrency (frequency), liftering (filtering), saphe (phase).
+
+7. What is real cepstrum vs complex cepstrum?
+   → Real: uses magnitude only; Complex: includes phase information.
+
+8. How does cepstrum separate source and filter?
+   → Low quefrencies: spectral envelope (formants)
+   High quefrencies: fine structure (pitch harmonics)
+
+9. What is liftering in cepstral domain?
+   → Filtering in cepstral domain to separate source/filter components.
+
+10. When does cepstral method fail?
+    → High noise, unvoiced speech, or weak fundamental frequency.
+
+11. What is the relationship between cepstrum peak and pitch?
+    → Peak quefrency = pitch period; f₀ = Fs / peak_quefrency.
+
+12. Why search specific quefrency range?
+    → To limit search to physiologically plausible pitch (50–400 Hz).
+
+ADVANTAGES
+==========
+• Separates source (pitch) and filter (formant) effects
+• More robust than autocorrelation for some voiced frames
+• Provides both pitch and spectral envelope information
+• Useful for source-filter decomposition
+• Effective for homomorphic processing
+• Theoretical foundation for MFCCs
+
+DISADVANTAGES
+=============
+• Computationally heavier than time-domain methods
+• Susceptible to noise in log spectrum
+• Requires zero-handling (log of small values)
+• May produce spurious peaks
+• Less intuitive than autocorrelation
+• Sensitive to windowing effects
+
+APPLICATIONS
+============
+• Pitch tracking
+• Speaker and prosody analysis
+• Voice source characterization
+• Echo detection and removal
+• Formant extraction
+• Speech coding
+• Voice conversion
+• Speech synthesis
+
+USE CASES
+=========
+• Telecommunications: Echo cancellation
+• Audio restoration: Separating speech components
+• Music information retrieval: Pitch detection
+• Speech synthesis: Source-filter modeling
+• Speaker recognition: Voice characteristics
+• Clinical: Vocal fold analysis
+
+RELATED CONCEPTS
+================
+• Homomorphic filtering
+• Source-filter theory
+• MFCCs (Mel-frequency cepstral coefficients)
+• Linear prediction
+• Autocorrelation pitch detection
+• Spectral envelope estimation
+• Deconvolution
+
+PRACTICAL CONSIDERATIONS
+=========================
+• Use windowed voiced segments (20–40 ms)
+• Zero-padding improves cepstral resolution
+• Add small epsilon before log to avoid log(0)
+• Search quefrency range: Fs/400 to Fs/50 for speech
+• Apply liftering (high-pass in quefrency) to isolate pitch
+• Validate with autocorrelation or spectral methods
+• Consider using complex cepstrum for phase information
+• Real cepstrum sufficient for pitch detection
+• NFFT should be larger than window length (e.g., 2× for padding)

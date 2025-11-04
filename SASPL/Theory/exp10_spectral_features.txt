@@ -1,0 +1,171 @@
+================================================================================
+EXPERIMENT 10 — SPECTRAL CENTROID, FLUX, AND ROLL-OFF
+================================================================================
+
+THEORY
+======
+
+Three spectral descriptors quantify timbral and dynamic properties of audio 
+signals. These features capture different aspects of the frequency content.
+
+SPECTRAL CENTROID (SC):
+-----------------------
+Weighted mean frequency; center of mass of the spectrum.
+
+SC = Σ(f × M(f)) / Σ M(f)
+
+where:
+- f: frequency bins
+- M(f): magnitude at frequency f
+
+Perceptually related to brightness or sharpness of sound.
+
+SPECTRAL FLUX (SF):
+-------------------
+Frame-to-frame change in spectrum; measures spectral variability.
+
+SF = Σ(M_t(f) - M_{t-1}(f))²
+
+where:
+- M_t(f): magnitude spectrum at frame t
+- M_{t-1}(f): magnitude spectrum at previous frame
+
+High values indicate transients, onsets, or rapid spectral changes.
+
+SPECTRAL ROLL-OFF (SR):
+------------------------
+Frequency below which X% (typically 85%) of spectral energy lies.
+
+SR = frequency f_r where: Σ(f<f_r) M²(f) = 0.85 × Σ M²(f)
+
+Distinguishes tonal (low roll-off) from noisy (high roll-off) sounds.
+
+================================================================================
+VIVA PREPARATION
+================================================================================
+
+CONCEPT QUESTIONS
+=================
+
+1. What is spectral centroid related to perceptually?
+   → Brightness or sharpness of the sound; higher centroid = brighter.
+
+2. What does high spectral flux indicate?
+   → Sudden changes, transients, or note onsets.
+
+3. Why is roll-off used?
+   → Differentiates tonal from noisy signals; shows frequency distribution.
+
+4. How does spectral centroid differ between vowels and consonants?
+   → Vowels: lower centroid (energy in low frequencies)
+   Consonants (fricatives): higher centroid (high-frequency energy)
+
+5. What is the unit of spectral centroid?
+   → Hertz (Hz), representing frequency.
+
+6. Why use squared difference in spectral flux?
+   → Emphasizes large changes and makes metric positive.
+
+7. What roll-off percentage is commonly used?
+   → 85% is standard, but can vary (75%, 90%, 95%).
+
+8. How does spectral centroid change with pitch?
+   → Generally increases with pitch, but also depends on spectral envelope.
+
+9. What causes low spectral flux?
+   → Sustained, steady sounds with minimal spectral variation.
+
+10. How do these features help in music analysis?
+    → SC: brightness/instrument timbre
+    SF: rhythm and onset detection
+    SR: distinguishing instruments and genres
+
+11. What preprocessing is needed?
+    → Windowing (Hamming), normalization, possibly pre-emphasis.
+
+12. Can these features distinguish speech from music?
+    → Yes, speech typically has more varied SF and different SC/SR patterns.
+
+ADVANTAGES
+==========
+• Compact and fast to compute
+• Strong correlation with human perception
+• Intuitive interpretation
+• Useful for real-time analysis
+• No training data required
+• Complement time-domain features well
+• Robust to amplitude variations (when normalized)
+
+DISADVANTAGES
+=============
+• Sensitive to amplitude normalization method
+• Limited interpretability without context
+• Affected by noise
+• Single-number summaries lose detail
+• May not capture complex timbral nuances
+• Require frame-based processing
+
+APPLICATIONS
+============
+• Music genre classification
+• Onset detection
+• Timbre and audio texture analysis
+• Audio segmentation
+• Musical instrument recognition
+• Speech/music discrimination
+• Audio similarity and retrieval
+• Emotion recognition from audio
+
+USE CASES
+=========
+• Music streaming: Genre tagging and recommendation
+• Audio editing: Automatic segmentation
+• Music production: Timbre matching
+• Gaming: Adaptive audio
+• Surveillance: Sound event classification
+• Multimedia: Audio-video synchronization
+• Music education: Instrument identification
+
+RELATED CONCEPTS
+================
+• Spectral bandwidth
+• Spectral flatness
+• Spectral contrast
+• Spectral envelope
+• Chroma features
+• Mel-frequency features
+• Harmonic-to-noise ratio
+• Timbral features
+
+PRACTICAL CONSIDERATIONS
+=========================
+FRAME PARAMETERS:
+• Frame size: 1024–2048 samples for music; 256–512 for speech
+• Hop size: 256–512 samples (50% overlap typical)
+• Window: Hamming or Hann for smooth spectrum
+
+SPECTRAL CENTROID:
+• Normalize magnitude spectrum before computation
+• Consider frequency weighting (e.g., perceptual scales)
+• Smooth across frames to reduce noise
+
+SPECTRAL FLUX:
+• Half-wave rectification: SF = Σ max(M_t(f) - M_{t-1}(f), 0)
+  (considers only increases in energy)
+• Normalize by frame energy for amplitude independence
+• Threshold for onset detection
+
+SPECTRAL ROLL-OFF:
+• Common thresholds: 75%, 85%, 90%, 95%
+• Lower thresholds more sensitive to bass content
+• Combine with other features for genre classification
+
+FEATURE NORMALIZATION:
+• Z-score normalization across dataset
+• Min-max scaling to [0, 1]
+• Robust scaling using median/IQR
+
+COMBINATION:
+• Use with MFCCs for comprehensive audio description
+• Temporal derivatives (delta features) capture dynamics
+• Statistical functionals: mean, std, median, IQR over longer segments

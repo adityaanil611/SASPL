@@ -1,0 +1,129 @@
+================================================================================
+EXPERIMENT 3 — VOICED, UNVOICED, AND SILENCE CLASSIFICATION
+================================================================================
+
+THEORY
+======
+
+Classification uses Short-Time Energy and ZCR thresholds:
+
+• VOICED: high energy, low ZCR (periodic signals from vocal fold vibration)
+• UNVOICED: medium energy, high ZCR (aperiodic noise-like sounds)
+• SILENCE: low energy, low ZCR (background noise or pauses)
+
+Dynamic thresholds (adaptive to recording) ensure accuracy across different
+recording conditions and speakers.
+
+CLASSIFICATION LOGIC:
+---------------------
+if (energy < threshold_silence) AND (ZCR < threshold_silence_ZCR):
+    → SILENCE
+elif (ZCR < threshold_voiced):
+    → VOICED
+else:
+    → UNVOICED
+
+================================================================================
+VIVA PREPARATION
+================================================================================
+
+CONCEPT QUESTIONS
+=================
+
+1. Why is classification important?
+   → To segment speech for recognition, compression, or enhancement.
+
+2. Why use both energy and ZCR?
+   → Energy alone fails for fricatives; ZCR adds spectral information.
+
+3. What happens if the thresholds are static?
+   → Misclassification due to amplitude variations across recordings.
+
+4. What are examples of voiced sounds?
+   → Vowels (/a/, /e/, /i/, /o/, /u/) and voiced consonants (/b/, /d/, /g/).
+
+5. What are examples of unvoiced sounds?
+   → Fricatives (/s/, /f/, /sh/, /th/) and stops (/p/, /t/, /k/).
+
+6. How does ZCR help distinguish voiced from unvoiced?
+   → Voiced sounds have low ZCR (periodic); unvoiced have high ZCR (random).
+
+7. What is voice activity detection (VAD)?
+   → Algorithm to detect presence/absence of speech in audio signal.
+
+8. Why use adaptive thresholds?
+   → To handle variations in recording level, background noise, and speaker 
+   characteristics.
+
+9. What statistical measures can be used for adaptive thresholding?
+   → Median, mean, standard deviation, median absolute deviation (MAD).
+
+10. What is the role of frame overlap in classification?
+    → Provides smooth transitions and reduces classification jitter.
+
+11. How can you improve classification accuracy?
+    → Combine with autocorrelation, spectral features, or machine learning.
+
+12. What is a hangover scheme in VAD?
+    → Continuing to mark frames as speech for a short duration after speech 
+    ends to avoid chopping.
+
+ADVANTAGES
+==========
+• Real-time capable with low latency
+• Simple and interpretable
+• Computationally efficient
+• No training data required
+• Works well for clean speech
+• Easy to implement in hardware
+• Suitable for resource-constrained devices
+
+DISADVANTAGES
+=============
+• Performance degrades with noise or reverberation
+• Ineffective for tonal languages without adaptive logic
+• May misclassify plosives and transitions
+• Static thresholds fail across different conditions
+• Requires tuning for optimal performance
+• Struggles with mixed voiced/unvoiced sounds
+
+APPLICATIONS
+============
+• Voice Activity Detection (VAD)
+• Speech compression and coding
+• Pre-processing for ASR (Automatic Speech Recognition)
+• Endpoint detection in speech recognition
+• Speech/non-speech discrimination
+• Audio indexing and segmentation
+• Telecommunications (discontinuous transmission)
+• Speaker diarization preprocessing
+
+USE CASES
+=========
+• Mobile networks: Bandwidth optimization via DTX (discontinuous transmission)
+• VoIP systems: Comfort noise generation during silence
+• Speech recognition: Reducing false activations
+• Audio editing: Automatic silence removal
+• Transcription services: Identifying speech segments
+• Hearing aids: Noise reduction triggering
+• Conference calls: Active speaker identification
+
+RELATED CONCEPTS
+================
+• Voice Activity Detection (VAD)
+• Endpoint detection
+• Speech/music discrimination
+• Energy-based detection
+• Pitch detection
+• Spectral flatness measure
+• Statistical decision theory
+
+PRACTICAL CONSIDERATIONS
+=========================
+• Use overlapping frames (50% typical) for smooth classification
+• Apply post-processing (median filter) to remove spurious labels
+• Consider spectral entropy or autocorrelation for robustness
+• Tune thresholds based on SNR of recording environment
+• Use hangover (continuation) logic to prevent speech chopping
+• Combine with pitch detection for better voiced classification
+• Log-energy may provide better dynamic range than linear energy

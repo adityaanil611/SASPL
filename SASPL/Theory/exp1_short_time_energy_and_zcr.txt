@@ -1,0 +1,112 @@
+================================================================================
+EXPERIMENT 1 — SHORT-TIME ENERGY (STE) AND ZERO-CROSSING RATE (ZCR)
+================================================================================
+
+THEORY
+======
+
+Speech is a non-stationary signal; its energy and frequency content vary over 
+time. To analyze it, short-time (frame-based) processing is used.
+
+SHORT-TIME ENERGY (STE):
+------------------------
+E(n) = Σ [x(m)w(n-m)]²
+
+It measures the signal's local power and is high during voiced speech or bursts.
+
+ZERO-CROSSING RATE (ZCR):
+--------------------------
+Z(n) = (1/2N) Σ |sgn[x(m)] - sgn[x(m-1)]|
+
+It counts how often the waveform crosses zero; higher in unvoiced segments 
+(e.g., /s/, /f/) and lower in voiced parts.
+
+================================================================================
+VIVA PREPARATION
+================================================================================
+
+CONCEPT QUESTIONS
+=================
+
+1. Why do we use short-time analysis instead of whole-signal analysis?
+   → Because speech is quasi-stationary over short durations (10–30 ms).
+
+2. What does a high ZCR indicate?
+   → Presence of unvoiced or noisy sounds.
+
+3. Why normalize the signal before analysis?
+   → To make energy independent of amplitude scaling.
+
+4. What is the trade-off between frame size and resolution?
+   → Shorter frames give better time but poorer frequency resolution.
+
+5. What window functions can be used?
+   → Rectangular, Hamming, Hanning; Hamming is preferred for smooth edges.
+
+6. What is the typical frame duration for speech analysis?
+   → 10–30 ms (20 ms is most common).
+
+7. What is frame overlap and why is it used?
+   → Overlapping frames (25–50%) ensure smooth transitions and prevent 
+   information loss at frame boundaries.
+
+8. How does ZCR differ between voiced and unvoiced speech?
+   → Voiced: low ZCR (periodic); Unvoiced: high ZCR (aperiodic/noisy).
+
+9. What happens to STE during silence?
+   → STE drops to near zero or background noise level.
+
+10. Why is speech considered quasi-stationary?
+    → Its statistical properties remain approximately constant over short 
+    intervals (10–30 ms).
+
+ADVANTAGES
+==========
+• Simple and computationally light
+• Effective for voiced/unvoiced classification
+• Suitable for real-time implementation
+• No complex transformations required
+• Robust baseline features for many applications
+
+DISADVANTAGES
+=============
+• Sensitive to noise
+• Requires adaptive thresholds for different speakers or environments
+• Cannot distinguish between different types of voiced sounds
+• Performance degrades in noisy environments
+• Fixed thresholds may not generalize across recordings
+
+APPLICATIONS
+============
+• Voice Activity Detection (VAD)
+• Speech endpoint detection
+• Preliminary feature extraction in speech recognition
+• Voiced/unvoiced classification
+• Speech/music discrimination
+• Audio segmentation
+• Low-power speech processing in embedded systems
+• Pre-processing for more complex algorithms
+
+USE CASES
+=========
+• Mobile phones: VAD for battery-saving during calls
+• Smart speakers: Wake-word detection preprocessing
+• Hearing aids: Noise reduction trigger
+• Conference systems: Active speaker detection
+• Audio compression: Identifying active speech segments
+
+RELATED CONCEPTS
+================
+• Short-Time Fourier Transform (STFT)
+• Windowing functions (Hamming, Hanning, Blackman)
+• Frame-based signal processing
+• Speech production model
+• Energy-based voice activity detection
+
+PRACTICAL CONSIDERATIONS
+=========================
+• Sampling rate: 8–16 kHz typical for speech
+• Pre-emphasis filter may be applied before analysis
+• Adaptive thresholding using median/MAD improves robustness
+• Combine with other features for better classification
+• Post-processing (median filtering) can smooth noisy decisions

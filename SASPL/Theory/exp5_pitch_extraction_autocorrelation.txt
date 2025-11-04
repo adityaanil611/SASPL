@@ -1,0 +1,135 @@
+================================================================================
+EXPERIMENT 5 — PITCH EXTRACTION VIA AUTOCORRELATION
+================================================================================
+
+THEORY
+======
+
+Autocorrelation method exploits periodicity in voiced speech; main peak 
+corresponds to pitch period.
+
+AUTOCORRELATION FUNCTION:
+-------------------------
+R(τ) = Σ x(n) × x(n+τ)
+
+For periodic signals, R(τ) shows peaks at multiples of the period T₀.
+
+PITCH CALCULATION:
+------------------
+1. Compute autocorrelation R(τ)
+2. Search for maximum peak in plausible pitch range (70–400 Hz)
+3. Peak location τ_max gives pitch period
+4. Pitch frequency f₀ = Fs / τ_max
+
+PARABOLIC INTERPOLATION:
+------------------------
+Refines peak location to sub-sample accuracy:
+p = 0.5 × (R(τ-1) - R(τ+1)) / (R(τ-1) - 2R(τ) + R(τ+1))
+Refined lag = τ + p
+
+================================================================================
+VIVA PREPARATION
+================================================================================
+
+CONCEPT QUESTIONS
+=================
+
+1. What is the pitch range of human voice?
+   → Male: 85–180 Hz; Female: 165–255 Hz; Children: 200–300 Hz.
+
+2. Why prefer autocorrelation over frequency-domain methods?
+   → Simple and less affected by spectral envelope variations.
+
+3. What errors occur in pitch estimation?
+   → Doubling/halving due to spurious peaks (octave errors).
+
+4. How to refine pitch estimate?
+   → Use parabolic interpolation around autocorrelation peak.
+
+5. What is autocorrelation?
+   → Correlation of a signal with a delayed version of itself.
+
+6. Why does autocorrelation show peaks for periodic signals?
+   → Periodic signals align with themselves at lag multiples of the period.
+
+7. What is the difference between autocorrelation and cross-correlation?
+   → Autocorrelation: signal with itself; Cross-correlation: two different 
+   signals.
+
+8. Why search only within a specific lag range?
+   → To avoid false peaks and limit search to physiologically plausible 
+   pitch range.
+
+9. What causes octave errors?
+   → Strong harmonic components or weak fundamental creating peaks at 
+   multiples/submultiples of true period.
+
+10. How does windowing affect autocorrelation?
+    → Reduces edge effects and biases; Hamming window preferred.
+
+11. What is the role of normalization in autocorrelation?
+    → Prevents amplitude dependence; normalized R(τ) ranges from -1 to 1.
+
+12. Why might autocorrelation fail?
+    → Noisy signals, unvoiced speech, mixed signals, or low SNR.
+
+ADVANTAGES
+==========
+• Simple and effective for clean voiced signals
+• Easy to implement in time domain
+• No complex transforms required
+• Robust to amplitude variations and spectral tilt
+• Computationally efficient
+• Intuitive interpretation
+• Works well for sustained vowels
+
+DISADVANTAGES
+=============
+• Sensitive to noise
+• May give octave errors (pitch doubling/halving)
+• Fails for unvoiced sounds
+• Requires preprocessing (windowing, voiced detection)
+• May need post-processing for trajectory smoothing
+• Less robust than advanced methods (RAPT, PYIN)
+
+APPLICATIONS
+============
+• Speech coding (e.g., CELP, vocoders)
+• Music transcription and tuning
+• Speaker and emotion analysis
+• Prosody modeling
+• Voice conversion
+• Karaoke and pitch correction
+• Singing voice analysis
+• Fundamental frequency tracking
+
+USE CASES
+=========
+• Music apps: Guitar/vocal tuner
+• Speech synthesis: Prosody generation
+• Voice effects: Pitch shifting
+• Speech analysis: Intonation studies
+• Clinical: Voice disorder assessment
+• Telecommunications: Low-bitrate coding
+• Language learning: Pronunciation feedback
+
+RELATED CONCEPTS
+================
+• Cepstral pitch detection
+• Harmonic product spectrum
+• YIN algorithm
+• RAPT (Robust Algorithm for Pitch Tracking)
+• PYIN (Probabilistic YIN)
+• Periodicity detection
+• Fundamental frequency estimation
+
+PRACTICAL CONSIDERATIONS
+=========================
+• Use windowed segments (20–40 ms) from voiced regions
+• Apply voiced/unvoiced classification first
+• Search lag range: Fs/400 to Fs/70 for speech
+• Normalize autocorrelation for amplitude independence
+• Use center clipping to emphasize periodicity
+• Apply median filtering for pitch contour smoothing
+• Consider using biased or unbiased autocorrelation
+• Validate results by checking harmonic structure in spectrum

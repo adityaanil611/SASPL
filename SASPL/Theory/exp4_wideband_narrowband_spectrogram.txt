@@ -1,0 +1,139 @@
+================================================================================
+EXPERIMENT 4 — WIDEBAND AND NARROWBAND SPECTROGRAMS
+================================================================================
+
+THEORY
+======
+
+Spectrogram = time–frequency representation using STFT (Short-Time Fourier 
+Transform):
+
+S(t, f) = Σ x[n] w[n - t] e^(-j2πfn)
+
+WIDEBAND SPECTROGRAM:
+---------------------
+• Short window (5–10 ms)
+• High time resolution, low frequency resolution
+• Shows vertical striations (glottal pulses)
+• Good for phonetic timing and transient analysis
+
+NARROWBAND SPECTROGRAM:
+-----------------------
+• Long window (30–50 ms)
+• High frequency resolution, low time resolution
+• Shows horizontal bands (harmonics)
+• Good for pitch and harmonic analysis
+
+UNCERTAINTY PRINCIPLE:
+----------------------
+Δt × Δf ≥ 1/(4π)
+
+Cannot have high resolution in both time and frequency simultaneously.
+
+================================================================================
+VIVA PREPARATION
+================================================================================
+
+CONCEPT QUESTIONS
+=================
+
+1. Why use STFT?
+   → To analyze non-stationary signals in both time and frequency domains.
+
+2. What determines resolution?
+   → Window length: short → time-precise; long → frequency-precise.
+
+3. Typical window sizes?
+   → 10 ms (wideband), 40 ms (narrowband).
+
+4. What are harmonics in a spectrogram?
+   → Multiples of fundamental frequency visible as horizontal bands in 
+   narrowband spectrograms.
+
+5. What is the time-frequency uncertainty principle?
+   → Cannot achieve arbitrarily high resolution in both time and frequency 
+   simultaneously.
+
+6. What are formant tracks in a spectrogram?
+   → Dark horizontal/curved bands showing vocal tract resonances over time.
+
+7. What causes vertical striations in wideband spectrograms?
+   → Individual glottal pulses (pitch periods) during voiced speech.
+
+8. Why use log frequency scale in spectrograms?
+   → Matches human perception and better displays low-frequency detail.
+
+9. What is a formant transition?
+   → Change in formant frequencies during consonant-vowel or vowel-consonant 
+   transitions.
+
+10. How do you identify voicing in a spectrogram?
+    → Presence of periodic structure (harmonics) or vertical striations.
+
+11. What window function is commonly used?
+    → Hamming window for good frequency resolution and low side lobes.
+
+12. What is the difference between spectrogram and spectrum?
+    → Spectrum: single time snapshot; Spectrogram: time-varying spectrum.
+
+ADVANTAGES
+==========
+• Intuitive visual interpretation
+• Allows dynamic speech feature tracking
+• Reveals both temporal and spectral characteristics
+• Useful for manual phonetic analysis
+• Can identify speech sounds, pitch, formants simultaneously
+• Educational tool for understanding speech production
+• Supports qualitative and quantitative analysis
+
+DISADVANTAGES
+=============
+• Trade-off between time/frequency resolution
+• Computationally heavy for real-time use on large files
+• Requires expertise for interpretation
+• May need different parameters for different analysis goals
+• Storage-intensive for long recordings
+• Not easily quantifiable for automated processing
+
+APPLICATIONS
+============
+• Speech phoneme analysis
+• Sound event classification
+• Forensic and linguistic studies
+• Bird song analysis
+• Music transcription
+• Speech pathology diagnosis
+• Voice quality assessment
+• Sonar and radar signal analysis
+• Biomedical signal analysis (ECG, EEG)
+
+USE CASES
+=========
+• Phonetics research: Analyzing articulation patterns
+• Speech therapy: Visualizing pronunciation
+• Forensic analysis: Speaker identification
+• Music education: Showing pitch and timbre
+• Bioacoustics: Animal vocalization studies
+• Audio restoration: Identifying noise patterns
+• Sound design: Understanding audio textures
+
+RELATED CONCEPTS
+================
+• Short-Time Fourier Transform (STFT)
+• Time-frequency analysis
+• Wavelet transform
+• Gabor transform
+• Wigner-Ville distribution
+• Mel-spectrogram
+• Constant-Q transform
+
+PRACTICAL CONSIDERATIONS
+=========================
+• Choose window length based on analysis goal:
+  - Phonetic segmentation: wideband
+  - Pitch/harmony analysis: narrowband
+• Overlap: 50–75% common for smooth display
+• FFT size: typically 256–2048 depending on resolution needs
+• Dynamic range: adjust color mapping for visibility
+• Use log magnitude for better perceptual representation
+• Pre-emphasis filter can improve high-frequency visibility
